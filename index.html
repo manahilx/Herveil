@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#6d4aff">
+  <meta name="description" content="HerVeil — a privacy-first women's health prototype.">
+  <title>HerVeil | Private Health Companion</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <div id="lockScreen" class="lock-screen">
+    <div class="lock-card">
+      <div class="brand-mark">H</div>
+      <p class="eyebrow">PRIVACY-FIRST HEALTHCARE</p>
+      <h1>HerVeil</h1>
+      <p class="muted">Your health is personal. Your privacy should be, too.</p>
+      <div id="setupBox" hidden>
+        <h2>Create your private vault</h2>
+        <p class="small">Use a unique passphrase of at least 12 characters. Your encrypted health records stay in this browser on this device.</p>
+        <label for="newPassphrase">Create passphrase</label>
+        <input id="newPassphrase" type="password" autocomplete="new-password" minlength="12" placeholder="At least 12 characters">
+        <label for="confirmPassphrase">Confirm passphrase</label>
+        <input id="confirmPassphrase" type="password" autocomplete="new-password" minlength="12" placeholder="Re-enter passphrase">
+        <button id="createVaultBtn" class="primary full">Create private vault</button>
+      </div>
+      <div id="unlockBox" hidden>
+        <h2>Unlock your vault</h2>
+        <label for="unlockPassphrase">Passphrase</label>
+        <input id="unlockPassphrase" type="password" autocomplete="current-password" placeholder="Enter your passphrase">
+        <button id="unlockBtn" class="primary full">Unlock</button>
+        <button id="resetVaultBtn" class="text-button">Erase this browser's vault and start over</button>
+      </div>
+      <p id="lockMessage" class="notice" role="status"></p>
+      <p class="small muted">Prototype notice: this is not a certified medical or security product. Do not enter real or urgent medical information in a hackathon demo.</p>
+    </div>
+  </div>
+
+  <div id="appShell" class="app-shell" hidden>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="HerVeil home"><span class="brand-mark small-mark">H</span><span id="brandText">HerVeil</span></a>
+      <div class="top-actions">
+        <span id="privacyStatus" class="status-pill">Private mode</span>
+        <button id="quickExitBtn" class="secondary" title="Switch to neutral screen">Quick Exit</button>
+        <button id="lockBtn" class="secondary">Lock</button>
+      </div>
+    </header>
+
+    <section id="quickExitScreen" class="quick-exit-screen" hidden>
+      <div class="neutral-card">
+        <p class="eyebrow">DAILY ORGANIZER</p>
+        <h1>My Daily Notes</h1>
+        <p class="muted">A simple space for everyday planning.</p>
+        <label for="neutralNote">Today's notes</label>
+        <textarea id="neutralNote" rows="4" placeholder="Add a general reminder..."></textarea>
+        <p class="small muted">This neutral screen does not erase browser history, downloads, screenshots, network records, or information visible elsewhere on the device.</p>
+        <button id="returnBtn" class="secondary">Return to HerVeil</button>
+      </div>
+    </section>
+
+    <div id="mainLayout" class="layout">
+      <aside class="sidebar">
+        <div class="side-intro"><span class="eyebrow">YOUR PRIVATE SPACE</span><p>Care, on your terms.</p></div>
+        <nav class="nav" aria-label="Main navigation">
+          <button class="nav-link active" data-view="dashboard">◫ <span data-en="Overview" data-ur="جائزہ">Overview</span></button>
+          <button class="nav-link" data-view="health">♡ <span data-en="Health diary" data-ur="صحت کی ڈائری">Health diary</span></button>
+          <button class="nav-link" data-view="cycle">◷ <span data-en="Cycle tracker" data-ur="سائیکل ٹریکر">Cycle tracker</span></button>
+          <button class="nav-link" data-view="wellbeing">☼ <span data-en="Wellbeing" data-ur="ذہنی سکون">Wellbeing</span></button>
+          <button class="nav-link" data-view="privacy">♙ <span data-en="Privacy & security" data-ur="رازداری اور سیکیورٹی">Privacy & security</span></button>
+          <button class="nav-link" data-view="safety">＋ <span data-en="Safety plan" data-ur="حفاظتی منصوبہ">Safety plan</span></button>
+        </nav>
+        <div class="side-footer"><span class="dot"></span> Local-first prototype<br><span class="small muted">No analytics or third-party trackers included.</span></div>
+      </aside>
+
+      <main class="content">
+        <div class="page-heading">
+          <div><p class="eyebrow">YOUR HEALTH, YOUR CHOICE</p><h1 id="pageTitle">Your private overview</h1><p id="pageSubtitle" class="muted">A calm place to record and understand your wellbeing.</p></div>
+          <div class="heading-actions"><button id="languageBtn" class="secondary" aria-label="Switch interface language">اردو</button><button id="discreetToggle" class="secondary" aria-pressed="false">Discreet Mode: Off</button></div>
+        </div>
+
+        <div id="discreetBanner" class="discreet-banner" hidden>Discreet Mode is on. Sensitive text is masked in this interface preview. This is not a device-wide privacy shield.</div>
+
+        <section id="view-dashboard" class="view active">
+          <div class="hero-card">
+            <div><p class="eyebrow light">WELCOME TO HERVEIL</p><h2>Your health. Your data. Your control.</h2><p>Track patterns, keep private notes, and decide what you share.</p><button class="light-button" data-goto="health">Add a health note</button></div>
+            <div class="hero-orb" aria-hidden="true">♡</div>
+          </div>
+          <div class="stats-grid">
+            <article class="stat-card"><span class="stat-icon">♡</span><p class="muted">Health notes</p><strong id="healthCount">0</strong><span class="small muted">Stored encrypted in this browser</span></article>
+            <article class="stat-card"><span class="stat-icon">◷</span><p class="muted">Cycle entries</p><strong id="cycleCount">0</strong><span class="small muted">Estimates are not contraception</span></article>
+            <article class="stat-card"><span class="stat-icon">☼</span><p class="muted">Wellbeing check-ins</p><strong id="moodCount">0</strong><span class="small muted">Private personal reflections</span></article>
+          </div>
+          <div class="two-column">
+            <article class="card"><div class="card-heading"><div><p class="eyebrow">PRIVACY FIRST</p><h3>Designed to minimize exposure</h3></div><span class="round-icon">♙</span></div><ul class="feature-list"><li>Health entries are encrypted before saving.</li><li>No analytics, advertising trackers, or external scripts.</li><li>Discreet Mode masks selected on-screen text.</li><li>Sharing is off unless you choose an action.</li></ul><button class="secondary" data-goto="privacy">Review privacy controls</button></article>
+            <article class="card"><div class="card-heading"><div><p class="eyebrow">GENTLE REMINDER</p><h3>Your wellbeing matters</h3></div><span class="round-icon">☼</span></div><p class="muted">This tool supports personal tracking. It cannot diagnose conditions or replace a qualified healthcare professional.</p><button class="secondary" data-goto="wellbeing">Open wellbeing check-in</button></article>
+          </div>
+        </section>
+
+        <section id="view-health" class="view">
+          <div class="section-grid">
+            <article class="card">
+              <p class="eyebrow">PRIVATE HEALTH DIARY</p><h2>Add a health note</h2>
+              <form id="healthForm">
+                <label for="healthDate">Date</label><input id="healthDate" type="date" required>
+                <label for="healthCategory">Category</label><select id="healthCategory"><option>General wellbeing</option><option>Period symptoms</option><option>Pain or discomfort</option><option>Sleep</option><option>Medication note</option><option>Question for clinician</option></select>
+                <label for="healthSeverity">How intense? (optional)</label><select id="healthSeverity"><option value="">Not specified</option><option value="1">1 — Mild</option><option value="2">2</option><option value="3">3 — Moderate</option><option value="4">4</option><option value="5">5 — Severe</option></select>
+                <label for="healthNote">Private note</label><textarea id="healthNote" rows="4" maxlength="2000" placeholder="Describe what you noticed..." required></textarea>
+                <button class="primary" type="submit">Encrypt and save note</button>
+              </form>
+            </article>
+            <article class="card"><p class="eyebrow">YOUR RECORDS</p><h2>Saved notes</h2><p class="small muted">Notes are encrypted in this browser. Exported files and screenshots may expose information if shared.</p><div id="healthRecords" class="record-list"><p class="empty-state">Unlock your vault to view notes.</p></div></article>
+          </div>
+        </section>
+
+        <section id="view-cycle" class="view">
+          <div class="section-grid">
+            <article class="card"><p class="eyebrow">CYCLE TRACKER</p><h2>Record a period start</h2><form id="cycleForm"><label for="cycleDate">Start date</label><input id="cycleDate" type="date" required><label for="cycleFlow">Flow</label><select id="cycleFlow"><option>Light</option><option selected>Medium</option><option>Heavy</option></select><label for="cycleSymptoms">Symptoms (optional)</label><textarea id="cycleSymptoms" rows="3" maxlength="1000" placeholder="e.g. cramps, tiredness..."></textarea><button class="primary">Save cycle entry</button></form><p class="notice">Cycle predictions are estimates only. They cannot confirm pregnancy, diagnose a condition, or reliably prevent pregnancy.</p></article>
+            <article class="card"><p class="eyebrow">CYCLE HISTORY</p><h2>Your entries</h2><div id="cycleRecords" class="record-list"><p class="empty-state">No entries yet.</p></div><div id="cycleInsight" class="insight-box" hidden></div></article>
+          </div>
+        </section>
+
+        <section id="view-wellbeing" class="view">
+          <div class="section-grid">
+            <article class="card"><p class="eyebrow">DAILY CHECK-IN</p><h2>How are you feeling?</h2><form id="moodForm"><label for="moodDate">Date</label><input id="moodDate" type="date" required><label for="moodValue">Choose a mood</label><select id="moodValue"><option value="Calm">Calm</option><option value="Okay">Okay</option><option value="Tired">Tired</option><option value="Anxious">Anxious</option><option value="Low">Low</option><option value="Hopeful">Hopeful</option></select><label for="moodNote">Anything you want to note? (optional)</label><textarea id="moodNote" rows="3" maxlength="1000" placeholder="A private reflection..."></textarea><button class="primary">Save check-in</button></form></article>
+            <article class="card"><p class="eyebrow">GENTLE SUPPORT</p><h2>A grounding pause</h2><p class="muted">Try naming five things you can see, four things you can feel, three things you can hear, two things you can smell, and one thing you can taste.</p><button id="groundingBtn" class="secondary">Show grounding steps</button><div id="groundingSteps" hidden class="notice"><ol><li>Notice five things you can see.</li><li>Notice four things you can feel.</li><li>Notice three things you can hear.</li><li>Notice two things you can smell.</li><li>Notice one thing you can taste.</li></ol></div><h3>Your check-ins</h3><div id="moodRecords" class="record-list"><p class="empty-state">No check-ins yet.</p></div></article>
+          </div>
+        </section>
+
+        <section id="view-privacy" class="view">
+          <div class="section-grid">
+            <article class="card"><p class="eyebrow">PRIVACY CONTROLS</p><h2>Make informed choices</h2>
+              <div class="setting-row"><div><strong>Discreet Mode</strong><p class="small muted">Mask sensitive text within this app's interface.</p></div><input type="checkbox" id="privacyDiscreet" aria-label="Enable discreet mode"></div>
+              <div class="setting-row"><div><strong>Lock after inactivity</strong><p class="small muted">Lock the vault after 5 minutes without activity while this page is open.</p></div><input type="checkbox" id="autoLockToggle" checked aria-label="Enable automatic lock"></div>
+              <div class="setting-row"><div><strong>Optional sharing</strong><p class="small muted">No third-party sharing is implemented in this prototype.</p></div><span class="status-pill">Off</span></div>
+              <div class="setting-row"><div><strong>Cookies and trackers</strong><p class="small muted">This app includes no analytics or advertising cookies. Browser/platform storage and hosting logs may still exist.</p></div><span class="status-pill">No trackers added</span></div>
+              <button id="exportBtn" class="secondary">Export encrypted backup</button>
+              <button id="deleteAllBtn" class="danger">Erase all vault records</button>
+            </article>
+            <article class="card"><p class="eyebrow">SECURITY DETAILS</p><h2>Current browser session</h2><div class="detail-row"><span>Browser</span><strong id="deviceBrowser">This browser</strong></div><div class="detail-row"><span>Platform</span><strong id="devicePlatform">Current device</strong></div><div class="detail-row"><span>Session status</span><strong id="sessionStatus">Unlocked</strong></div><p class="small muted">This static/PWA prototype can describe the current browser session only. It cannot reliably discover all devices logged into other accounts or remotely revoke sessions.</p><button id="lockFromPrivacy" class="secondary">Lock now</button><div class="notice">Security note: browser encryption helps protect stored records, but cannot protect against malware, a compromised operating system, someone watching the screen, or a person who knows your passphrase.</div></article>
+          </div>
+        </section>
+
+        <section id="view-safety" class="view">
+          <div class="section-grid">
+            <article class="card"><p class="eyebrow">PERSONAL SAFETY PLAN</p><h2>Prepare at your pace</h2><p class="muted">Use this section to think through safe contacts and practical next steps. Do not add details if someone else may access this device.</p><form id="safetyForm"><label for="safeContactLabel">Trusted contact label (optional)</label><input id="safeContactLabel" maxlength="60" placeholder="e.g. Trusted person"><label for="safePlanNote">Personal plan (optional)</label><textarea id="safePlanNote" rows="4" maxlength="1500" placeholder="A place to go, a support person, or a question for a professional..."></textarea><button class="primary">Encrypt and save plan</button></form><div id="safetyRecord" class="record-list"></div></article>
+            <article class="card"><p class="eyebrow">URGENT HEALTH CONCERNS</p><h2>Get appropriate help</h2><p>If you may be in immediate danger or have severe or rapidly worsening symptoms, contact local emergency services or a qualified healthcare professional when it is safe to do so.</p><p class="notice">This prototype does not send an SOS, contact a trusted person, share your location, or contact emergency services. Do not rely on it as an emergency system.</p><p class="small muted">For a real deployment, add verified local resources and test any contact feature with informed consent.</p></article>
+          </div>
+        </section>
+
+        <footer class="footer"><span>HerVeil prototype</span><span>Privacy-first by design · Not a medical device</span></footer>
+      </main>
+    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </div>
+  <script src="./js/app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+      window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+    }
+  </script>
+</body>
+</html>
